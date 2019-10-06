@@ -91,18 +91,26 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
         GameLogger.Clear();
-        GameObject randomEnemy = enemies[UnityEngine.Random.Range(0, enemies.Count)];
-        currentEnemyEntity = Instantiate(randomEnemy).GetComponent<Entity>();
-        currentEnemyEntity.name = randomEnemy.name;
-        GameLogger.Log("<color=yellow>You face a terrifying</color> <color=red>" + currentEnemyEntity.name + "</color><color=yellow>!</color>");
-        enemyInfo.SetNewEnemy(currentEnemyEntity);
-        enemyHealthIndicator.trackingEntity = currentEnemyEntity;        
-        NewTurn();
+        if(enemies.Count != 0)
+        {
+            GameObject randomEnemy = enemies[UnityEngine.Random.Range(0, enemies.Count)];
+            currentEnemyEntity = Instantiate(randomEnemy).GetComponent<Entity>();
+            currentEnemyEntity.name = randomEnemy.name;
+            GameLogger.Log("<color=yellow>You face a terrifying</color> <color=red>" + currentEnemyEntity.name + "</color><color=yellow>!</color>");
+            enemyInfo.SetNewEnemy(currentEnemyEntity);
+            enemyHealthIndicator.trackingEntity = currentEnemyEntity;
+            NewTurn();
+        }
+        else
+        {
+            TutNextTurn();
+        }
     }
 
 
     public void TutNextTurn()
     {
+        Debug.Log("Tutorial next turn.");
         foreach (LetterButton b in buttons)
         {
             b.ResetButton(1);
